@@ -45,13 +45,13 @@ git clone https://github.com/pmem/pmdk
 cd pmdk
 git checkout $PMDK_VERSION
 
-sudo make -j$(nproc) install prefix=/opt/pmdk
+time sudo make -j$(nproc) install prefix=/opt/pmdk
 
 # Do not create nor test any packages if PACKAGE_MANAGER is not set.
 [ "$PACKAGE_MANAGER" == "" ] && exit 0
 
 sudo mkdir /opt/pmdk-pkg
-NDCTL_ENABLE=n make -j$(nproc) BUILD_PACKAGE_CHECK=n "$PACKAGE_MANAGER"
+NDCTL_ENABLE=n time make -j$(nproc) BUILD_PACKAGE_CHECK=n "$PACKAGE_MANAGER"
 
 if [ "$PACKAGE_MANAGER" = "dpkg" ]; then
 	sudo mv dpkg/*.deb /opt/pmdk-pkg/
