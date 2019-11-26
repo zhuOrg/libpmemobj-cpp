@@ -38,9 +38,9 @@
 #define LIBPMEMOBJ_CPP_ENUMERABLE_THREAD_SPECIFIC_HPP
 
 #include <libpmemobj++/detail/common.hpp>
-#include <libpmemobj++/experimental/segment_vector.hpp>
 #include <libpmemobj++/experimental/v.hpp>
 #include <libpmemobj++/mutex.hpp>
+#include <libpmemobj++/segment_vector.hpp>
 #include <libpmemobj++/shared_mutex.hpp>
 
 #include <mutex>
