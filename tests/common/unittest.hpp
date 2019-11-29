@@ -33,6 +33,8 @@
 #ifndef LIBPMEMOBJ_CPP_UNITTEST_HPP
 #define LIBPMEMOBJ_CPP_UNITTEST_HPP
 
+#define PMEMOBJ_OFFSETOF_WA 1
+
 #include "../test_backtrace.h"
 #include "../valgrind_internal.hpp"
 #include "iterators_support.hpp"

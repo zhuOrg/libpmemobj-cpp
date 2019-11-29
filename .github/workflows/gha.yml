@@ -19,57 +19,91 @@ jobs:
     name: Windows
     runs-on: windows-latest
     env:
+      platform: x64
       VCPKG_DEFAULT_TRIPLET: x64-windows
       GENERATOR: "Visual Studio 16 2019"
-      PMDK_INCLUDE_DIR: "C:/vcpkg/packages/pmdk_x64-windows/include"
-      PMDK_LIBRARY: "C:/vcpkg/packages/pmdk_x64-windows/bin;C:/vcpkg/packages/pmdk_x64-windows/lib"
-      platform: x64
-#      GENERATOR: "Visual Studio 14 2015 Win64"
-#      version: 1.4.{build}
-#      os: Visual Studio 2017
+      PMDK_DIR: "C:\\vcpkg\\packages\\pmdk_x64-windows"
+      PMDK_BIN: "C:\\vcpkg\\packages\\pmdk_x64-windows\\bin;C:\\vcpkg\\packages\\pmdk_x64-windows\\debug\\bin"
+      PMDK_VERSION: "1.7"
+      WORKDIR: "D:/a/libpmemobj-cpp/libpmemobj-cpp/"
+      MSBUILD: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Enterprise\\MSBuild\\Current\\Bin"
+      DLLS:    "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Enterprise\\VC\\Redist\\MSVC\\14.23.27820\\debug_nonredist\\x64\\Microsoft.VC142.DebugCRT;C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Enterprise\\VC\\Redist\\MSVC\\14.23.27820\\debug_nonredist\\x86\\Microsoft.VC142.DebugCRT"
     strategy:
       matrix:
         CONFIG: [Debug] # , Release]
     steps:
-       - name: Cache packages
+       - name: Update PATH
+         run: |
+           echo "::add-path::$Env:MSBUILD"
+           echo "::add-path::$Env:PMDK_DIR"
+           echo "::add-path::$Env:PMDK_BIN"
+           echo "::add-path::$Env:DLLS"
+
+       - name: Cache vcpkg packages
          uses: actions/cache@v1
-         id: cache-pmdk
+         id: cache-vcpkg
          with:
             path: C:/vcpkg/packages
             key:  pmdk-1.7
 
+       - name: Cache CPP
+         uses: actions/cache@v1
+         id: cache-cpp
+         with:
+            path: D:/a/libpmemobj-cpp/libpmemobj-cpp
+            key:  cpp-v2
+
        - name: Clone the git repo
+         if: steps.cache-cpp.outputs.cache-hit != 'true'
          uses: actions/checkout@v1
 
        - name: Install PMDK
-         if: steps.cache-pmdk.outputs.cache-hit != 'true'
+         if: steps.cache-vcpkg.outputs.cache-hit != 'true'
          run: |
             vcpkg install pmdk:x64-windows
             vcpkg install sfml:x64-windows
 
        - run: vcpkg integrate install
 
-       - name: Setup MSBuild.exe
-         uses: warrenbuckley/Setup-MSBuild@v1
-
        - name: Configure
-         env:
-           LIBPMEM_INC_DIR: "C:/vcpkg/packages/pmdk_x64-windows/include"
-           LIBPMEM_LIB_DIR: "C:/vcpkg/packages/pmdk_x64-windows/lib"
-           LIBPMEMOBJ_INC_DIR: "C:/vcpkg/packages/pmdk_x64-windows/include"
-           LIBPMEMOBJ_LIB_DIR: "C:/vcpkg/packages/pmdk_x64-windows/lib"
-         run: cmake . -Bbuild -G "${env:GENERATOR}" -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_INSTALL_PREFIX=c:/install/libpmemobj-cpp -DTESTS_USE_FORCED_PMEM=ON -DLIBPMEMOBJ_VERSION="1.7"
+         if: steps.cache-cpp.outputs.cache-hit != 'true'
+         run: cmake . -Bbuild -G "${env:GENERATOR}" -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_INSTALL_PREFIX=c:/install/libpmemobj-cpp -DTESTS_USE_FORCED_PMEM=ON -DLIBPMEMOBJ_VERSION="${env:PMDK_VERSION}" -DCMAKE_PREFIX_PATH="${env:PMDK_DIR}"
 
        - name: Build
-         env:
-           CONFIGURATION: ${{ matrix.CONFIG }}
-         run: msbuild build/ALL_BUILD.vcxproj /property:Configuration=${env:CONFIGURATION} /verbosity:minimal
+         if: steps.cache-cpp.outputs.cache-hit != 'true'
+         run: msbuild build/ALL_BUILD.vcxproj /property:Configuration=${{ matrix.CONFIG }} /verbosity:minimal
 
        - name: Test
+         shell: cmd
          run: |
-           dir
+           "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Enterprise\\SDK\\ScopeCppSDK\\VC\\bin\\dumpbin.exe" /DEPENDENTS D:/a/libpmemobj-cpp/libpmemobj-cpp/build/tests/Debug/ex-queue.exe
+           echo "================================="
+           where libpmemobj.dll
+           echo "================================="
+           where MSVCP140D.dll
+           echo "================================="
+           where VCRUNTIME140D.dll
+           echo "================================="
+           where VCRUNTIME140_1D.dll
+           echo "================================="
+           where ucrtbased.dll
+           echo "================================="
+           where KERNEL32.dll
+           echo "================================="
+           echo ">>> 1"
+           D:/a/libpmemobj-cpp/libpmemobj-cpp/build/tests/Debug/ex-queue.exe ./testfile push 1
+           echo ">>> 2"
+           D:/a/libpmemobj-cpp/libpmemobj-cpp/build/tests/Debug/ex-queue.exe ./testfile show
+           echo ">>> 3"
+           D:/a/libpmemobj-cpp/libpmemobj-cpp/build/tests/Debug/ex-queue.exe ./testfile pop
+           echo ">>> 4"
+           D:/a/libpmemobj-cpp/libpmemobj-cpp/build/tests/Debug/ex-queue.exe ./testfile show
+           echo ">>> 5"
+           D:/a/libpmemobj-cpp/libpmemobj-cpp/build/tests/Debug/ex-queue.exe ./testfile;push;1
+           echo "cd build"
            cd build
-           ctest -C ${env:CONFIGURATION} --output-on-failure --timeout 540
+           echo "ctest -I 1,1 -C ${{ matrix.CONFIG }} --output-on-failure --timeout 540"
+           ctest -I 1,1 -C ${{ matrix.CONFIG }} -V --timeout 540
 
 # XXX: enable this after pmdk update
 #- msbuild INSTALL.vcxproj /verbosity:minimal
