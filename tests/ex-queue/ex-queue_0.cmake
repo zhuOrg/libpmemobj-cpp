@@ -28,12 +28,13 @@
 # THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+# #execute(${TEST_EXECUTABLE} ${DIR}/testfile push 1)
 
 include(${SRC_DIR}/../helpers.cmake)
 
 setup()
 
-execute(${TEST_EXECUTABLE} ${DIR}/testfile push 1)
+
 execute(${TEST_EXECUTABLE} ${DIR}/testfile push 2)
 execute(${TEST_EXECUTABLE} ${DIR}/testfile push 3)
 execute(${TEST_EXECUTABLE} ${DIR}/testfile pop)
