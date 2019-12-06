@@ -47,7 +47,7 @@ jobs:
             key:  cpp-v2
 
        - name: Clone the git repo
-         if: steps.cache-cpp.outputs.cache-hit != 'true'
+         #if: steps.cache-cpp.outputs.cache-hit != 'true'
          uses: actions/checkout@v1
 
        - name: Install PMDK
@@ -63,7 +63,7 @@ jobs:
          run: cmake . -Bbuild -G "${env:GENERATOR}" -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_INSTALL_PREFIX=c:/install/libpmemobj-cpp -DTESTS_USE_FORCED_PMEM=ON -DLIBPMEMOBJ_VERSION="${env:PMDK_VERSION}" -DCMAKE_PREFIX_PATH="${env:PMDK_DIR}"
 
        - name: Build
-         if: steps.cache-cpp.outputs.cache-hit != 'true'
+         #if: steps.cache-cpp.outputs.cache-hit != 'true'
          run: msbuild build/ALL_BUILD.vcxproj /property:Configuration=${{ matrix.CONFIG }} /verbosity:minimal
        - name: Test
          shell: cmd
