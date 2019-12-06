@@ -1,11 +1,4 @@
-#
-# The 'XXX_DISABLE_' suffix is used twice in this file to disable two actions:
-# 1) XXX_DISABLE_${CI_FILE_PUSH_IMAGE_TO_REPO} - disables pushing the rebuilt Docker image and
-# 2) XXX_DISABLE_AUTO_DOC_UPDATE - disables making pull requests with the update of documentation.
-# Those two actions are disabled, because they conflict with the same ones run on Travis.
-# Only one CI (Travis or GitHub Actions) can run them at the time, so they can be enabled here,
-# when we decide to switch from Travis to GitHub Actions. The 'XXX_DISABLE_' suffix should be removed then.
-#
+
 
 name: WIN
 on: [push]
