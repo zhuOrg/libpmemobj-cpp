@@ -105,13 +105,4 @@ jobs:
            echo "ctest -I 1,1 -C ${{ matrix.CONFIG }} --output-on-failure --timeout 540"
            ctest -I 1,1 -C ${{ matrix.CONFIG }} -V --timeout 540
 
-# XXX: enable this after pmdk update
-#- msbuild INSTALL.vcxproj /verbosity:minimal
-#- cd ..
-# build standalone example
-#- cd examples/map_cli
-#- cmake . -G "${{ GENERATOR }}"
-#        -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake
-#        -DCMAKE_PREFIX_PATH=c:/install/libpmemobj-cpp
-#        -DTESTS_USE_FORCED_PMEM=ON
-#- msbuild ALL_BUILD.vcxproj /verbosity:minimal
+
