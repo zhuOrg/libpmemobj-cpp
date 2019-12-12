@@ -95,7 +95,7 @@ jobs:
            echo "cd build"
            cd build
            echo "ctest -I 1,1 -C ${{ matrix.CONFIG }} --output-on-failure --timeout 540"
-           ctest -I 1,1 -C ${{ matrix.CONFIG }} -V --timeout 540
+           ctest -C ${{ matrix.CONFIG }} --timeout 540
 
 
        
