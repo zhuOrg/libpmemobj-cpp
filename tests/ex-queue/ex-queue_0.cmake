@@ -34,7 +34,7 @@ include(${SRC_DIR}/../helpers.cmake)
 
 setup()
 
-
+execute(${TEST_EXECUTABLE} ${DIR}/testfile push 1)
 execute(${TEST_EXECUTABLE} ${DIR}/testfile push 2)
 execute(${TEST_EXECUTABLE} ${DIR}/testfile push 3)
 execute(${TEST_EXECUTABLE} ${DIR}/testfile pop)
