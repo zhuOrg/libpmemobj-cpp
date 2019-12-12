@@ -32,14 +32,15 @@ jobs:
            echo "::add-path::$Env:PMDK_BIN"
            echo "::add-path::$Env:DLLS"
 
+     
+       - run: $Env:Path
+   
        - name: Cache vcpkg packages
          uses: actions/cache@v1
          id: cache-vcpkg
          with:
             path: C:/vcpkg/packages
             key:  pmdk-1.7
-       - run: echo $PATH
-         shell: bash
        - name: Cache CPP
          uses: actions/cache@v1
          id: cache-cpp
