@@ -39,6 +39,7 @@ jobs:
             path: C:/vcpkg/packages
             key:  pmdk-1.7
        - run: echo $PATH
+         shell: bash
        - name: Cache CPP
          uses: actions/cache@v1
          id: cache-cpp
