@@ -66,7 +66,7 @@ jobs:
          #if: steps.cache-cpp.outputs.cache-hit != 'true'
         # run: msbuild build/ALL_BUILD.vcxproj /property:Configuration=${{ matrix.CONFIG }} /verbosity:minimal
        - name: Test
-         if: failed()
+  
          shell: cmd
          run: |
            "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Enterprise\\SDK\\ScopeCppSDK\\VC\\bin\\dumpbin.exe" /DEPENDENTS D:/a/libpmemobj-cpp/libpmemobj-cpp/build/tests/Debug/ex-queue.exe
