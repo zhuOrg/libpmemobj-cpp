@@ -38,7 +38,7 @@ jobs:
          with:
             path: C:/vcpkg/packages
             key:  pmdk-1.7
-
+       - run: echo $PATH
        - name: Cache CPP
          uses: actions/cache@v1
          id: cache-cpp
@@ -62,10 +62,11 @@ jobs:
          #if: steps.cache-cpp.outputs.cache-hit != 'true'
          run: cmake . -Bbuild -G "${env:GENERATOR}" -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_INSTALL_PREFIX=c:/install/libpmemobj-cpp -DTESTS_USE_FORCED_PMEM=ON -DLIBPMEMOBJ_VERSION="${env:PMDK_VERSION}" -DCMAKE_PREFIX_PATH="${env:PMDK_DIR}"
 
-       - name: Build
+      # - name: Build
          #if: steps.cache-cpp.outputs.cache-hit != 'true'
-         run: msbuild build/ALL_BUILD.vcxproj /property:Configuration=${{ matrix.CONFIG }} /verbosity:minimal
+        # run: msbuild build/ALL_BUILD.vcxproj /property:Configuration=${{ matrix.CONFIG }} /verbosity:minimal
        - name: Test
+         if: failed()
          shell: cmd
          run: |
            "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Enterprise\\SDK\\ScopeCppSDK\\VC\\bin\\dumpbin.exe" /DEPENDENTS D:/a/libpmemobj-cpp/libpmemobj-cpp/build/tests/Debug/ex-queue.exe
