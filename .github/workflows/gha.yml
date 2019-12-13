@@ -67,6 +67,13 @@ jobs:
        - name: Build
          if: steps.cache-cpp.outputs.cache-hit != 'true'
          run: msbuild build/ALL_BUILD.vcxproj /property:Configuration=${{ matrix.CONFIG }} /verbosity:minimal
+       - name: Upload artifact
+         uses: actions/upload-artifact@v1.0.0
+         with: 
+    # Artifact name
+           name: drop
+    # Directory containing files to upload
+           path: build
        - name: Test
   
          shell: cmd
