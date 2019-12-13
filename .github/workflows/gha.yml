@@ -67,6 +67,38 @@ jobs:
        - name: Build
          if: steps.cache-cpp.outputs.cache-hit != 'true'
          run: msbuild build/ALL_BUILD.vcxproj /property:Configuration=${{ matrix.CONFIG }} /verbosity:minimal
+       - name: Test
+  
+         shell: cmd
+         run: |
+           "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Enterprise\\SDK\\ScopeCppSDK\\VC\\bin\\dumpbin.exe" /DEPENDENTS D:/a/libpmemobj-cpp/libpmemobj-cpp/build/tests/Debug/ex-queue.exe
+           echo "================================="
+           where libpmemobj.dll
+           echo "================================="
+           where MSVCP140D.dll
+           echo "================================="
+           where VCRUNTIME140D.dll
+           echo "================================="
+           where VCRUNTIME140_1D.dll
+           echo "================================="
+           where ucrtbased.dll
+           echo "================================="
+           where KERNEL32.dll
+           echo "================================="
+           echo ">>> 1"
+           D:/a/libpmemobj-cpp/libpmemobj-cpp/build/tests/Debug/ex-queue.exe ./testfile push 1
+           echo ">>> 2"
+           D:/a/libpmemobj-cpp/libpmemobj-cpp/build/tests/Debug/ex-queue.exe ./testfile show
+           echo ">>> 3"
+           D:/a/libpmemobj-cpp/libpmemobj-cpp/build/tests/Debug/ex-queue.exe ./testfile pop
+           echo ">>> 4"
+           D:/a/libpmemobj-cpp/libpmemobj-cpp/build/tests/Debug/ex-queue.exe ./testfile show
+           echo ">>> 5"
+           D:/a/libpmemobj-cpp/libpmemobj-cpp/build/tests/Debug/ex-queue.exe ./testfile;push;1
+           echo "cd build"
+           cd build
+           echo "ctest -I 1,1 -C ${{ matrix.CONFIG }} --output-on-failure --timeout 540"
+           ctest -I 1,1 -C ${{ matrix.CONFIG }} -V --timeout 540
        
        
 
