@@ -92,7 +92,7 @@ jobs:
            D:/a/libpmemobj-cpp/libpmemobj-cpp/build/tests/Debug/ex-queue.exe ./testfile pop
            echo ">>> 4"
            D:/a/libpmemobj-cpp/libpmemobj-cpp/build/tests/Debug/ex-queue.exe ./testfile show
-           echo ">>> 5"
+           echo ">>> 5 "
            D:/a/libpmemobj-cpp/libpmemobj-cpp/build/tests/Debug/ex-queue.exe ./testfile;push;1
            echo "cd build"
            cd build
