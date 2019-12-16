@@ -21,6 +21,7 @@ jobs:
       WORKDIR: "D:/a/libpmemobj-cpp/libpmemobj-cpp/"
       MSBUILD: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Preview\\MSBuild\\Current\\Bin"
       DLLS:    "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Preview\\VC\\Redist\\MSVC\\14.24.28127\\x64\\Microsoft.VC142.CRT;C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Preview\\VC\\Redist\\MSVC\\14.24.28127\\debug_nonredist\\x86\\Microsoft.VC142.DebugCRT"
+      VCPKG: "C:\\yan\\github actions\\vcpkg"
     strategy:
       matrix:
         CONFIG: [Debug] # , Release]
@@ -31,7 +32,7 @@ jobs:
            echo "::add-path::$Env:PMDK_DIR"
            echo "::add-path::$Env:PMDK_BIN"
            echo "::add-path::$Env:DLLS"
-
+           echo "::add-path::$Env:VCPKG"
      
        - run: $Env:Path
    
