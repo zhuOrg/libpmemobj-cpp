@@ -33,6 +33,7 @@ jobs:
            echo "::add-path::$Env:PMDK_DIR"
            echo "::add-path::$Env:PMDK_BIN"
            echo "::add-path::$Env:DLLS"
+           echo "::add-path::$Env:VCPKG"
            echo "::add-path::$Env:CMAKE"
      
        - run: $Env:Path
