@@ -65,7 +65,7 @@ jobs:
 
        - name: Configure
          #if: steps.cache-cpp.outputs.cache-hit != 'true'
-         run: cmake . -Bbuild -G "${env:GENERATOR}" -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_INSTALL_PREFIX=c:/install/libpmemobj-cpp -DTESTS_USE_FORCED_PMEM=ON -DLIBPMEMOBJ_VERSION="${env:PMDK_VERSION}" -DCMAKE_PREFIX_PATH="${env:PMDK_DIR}"
+         run: cmake . -Bbuild -G "${env:GENERATOR}" -DCMAKE_TOOLCHAIN_FILE="C:/yan/github actions/vcpkg/scripts/buildsystems/vcpkg.cmake" -DCMAKE_INSTALL_PREFIX=c:/install/libpmemobj-cpp -DTESTS_USE_FORCED_PMEM=ON -DLIBPMEMOBJ_VERSION="${env:PMDK_VERSION}" -DCMAKE_PREFIX_PATH="${env:PMDK_DIR}"
 
        - name: Build
          #if: steps.cache-cpp.outputs.cache-hit != 'true'
