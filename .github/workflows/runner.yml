@@ -9,13 +9,14 @@ jobs:
 
   job1: 
 
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
   
 
     steps:
-    - run: set
-      shell: cmd
+    #- run: set
+      #shell: cmd
+    - run: printenv
     - name: Dump runner context
 
       env:
