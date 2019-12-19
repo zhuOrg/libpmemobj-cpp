@@ -1,7 +1,7 @@
 #eeeeggcll
 
 name: WIN
-on: [push]
+on: check_run
 
 env:
     GITHUB_REPO:    pmem/libpmemobj-cpp
