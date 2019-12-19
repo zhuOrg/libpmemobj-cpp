@@ -15,6 +15,7 @@ jobs:
 
     steps:
     - run: set
+      shell: cmd
     - name: Dump runner context
 
       env:
